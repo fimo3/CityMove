@@ -6,9 +6,10 @@ import "leaflet/dist/leaflet.css";
 type MapProps = {
   center: [number, number];
   markerLabel: string;
+  route?: [number, number][]; // optional polyline route
 };
 
-export default function Map({ center, markerLabel }: MapProps) {
+export default function Map({ center, markerLabel, route }: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Map({ center, markerLabel }: MapProps) {
       shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
     });
 
-    const map = L.map(mapRef.current!).setView(center, 10);
+  const map = L.map(mapRef.current!).setView(center, 10);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; OpenStreetMap contributors',
@@ -29,7 +30,17 @@ export default function Map({ center, markerLabel }: MapProps) {
 
     L.marker(center).addTo(map).bindPopup(markerLabel).openPopup();
 
+    // if a route is provided, draw it
+    let polyline: any = null;
+    if (route && route.length > 0) {
+      polyline = L.polyline(route, { color: "#2563eb", weight: 4, opacity: 0.9 }).addTo(map);
+      map.fitBounds(polyline.getBounds(), { padding: [40, 40] });
+    }
+
     return () => {
+      if (polyline) {
+        map.removeLayer(polyline);
+      }
       map.remove();
     };
   }, [center, markerLabel]);

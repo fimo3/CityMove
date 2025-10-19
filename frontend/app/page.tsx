@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { Dropdown } from "./(components)/Dropdown";
 
 // Dynamically import the map (client-side only)
@@ -26,6 +27,8 @@ const CITIES: CityInfo[] = [
 
 export default function Home() {
   const [selected, setSelected] = useState<string>(CITIES[0].name);
+  const [route, setRoute] = useState<[number, number][] | undefined>(undefined);
+  const router = useRouter();
   const city = CITIES.find((c) => c.name === selected) ?? CITIES[0];
 
   return (
@@ -49,21 +52,41 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="p-4 bg-white rounded-md shadow">
+            <div className="p-4 bg-white rounded-md shadow">
             <h3 className="font-medium">Quick actions</h3>
             <div className="mt-2 space-y-2">
-              <button className="w-full py-2 px-3 bg-blue-600 text-white rounded-md">
-                Explore routes
+              <button
+              className="w-full py-2 px-3 bg-blue-600 text-white rounded-md"
+                onClick={() => {
+                  // build a sample circular route near the city center
+                  const [lat, lng] = city.coords;
+                  const sample: [number, number][] = [
+                    [lat + 0.02, lng - 0.02],
+                    [lat + 0.01, lng + 0.03],
+                    [lat - 0.02, lng + 0.01],
+                    [lat - 0.01, lng - 0.03],
+                    [lat + 0.02, lng - 0.02],
+                  ];
+                  setRoute(sample);
+                }}
+              >
+              Explore routes in this city
               </button>
-              <button className="w-full py-2 px-3 border rounded-md">
-                View listings
+              <button
+              className="w-full py-2 px-3 border rounded-md"
+                onClick={() => {
+                  // navigate to internal listings page using Next router
+                  router.push(`/listings?city=${encodeURIComponent(selected)}`);
+                }}
+              >
+              View listings
               </button>
             </div>
-          </div>
+            </div>
         </div>
 
         <div className="lg:col-span-2">
-          <Map center={city.coords} markerLabel={city.name} />
+            <Map center={city.coords} markerLabel={city.name} route={route} />
         </div>
       </div>
     </div>
