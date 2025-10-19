@@ -33,6 +33,17 @@ export default function Map({ center, markerLabel }: MapProps) {
       map.remove();
     };
   }, [center, markerLabel]);
+  return (
+  <div
+    ref={mapRef}
+    className="
+      h-[60vh] w-full border 
+      rounded-t-md 
+      rounded-b-4xl lg:rounded-l-md lg:rounded-r-4xl
+      transition-all duration-300
+    "
+  />
+);
 
-  return <div ref={mapRef} style={{ height: "60vh", width: "100%" }} className="border rounded-e-4xl rounded-s-md" />;
+
 }

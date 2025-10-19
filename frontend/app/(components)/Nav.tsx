@@ -44,7 +44,6 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
         <header className="w-full border-b bg-white">
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    {/* Left: logo + links */}
                     <div className="flex items-center space-x-4">
                         <Link href="/" className="py-2 px-2 rounded-md bg-blue-600 flex items-center justify-center text-white font-semibold text-lg hover:bg-blue-700">
                             <span className="font-semibold text-lg">CityMove</span>
@@ -57,10 +56,7 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                         </div>
                     </div>
 
-                    {/* Right: actions */}
                     <div className="flex items-center space-x-4">
-
-                        {/* Profile */}
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setOpen((s) => !s)}
@@ -108,7 +104,6 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                             )}
                         </div>
 
-                        {/* Mobile menu button */}
                         <button
                             className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             onClick={() => setMobileOpen((s) => !s)}
@@ -125,39 +120,12 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                     </div>
                 </div>
 
-                {/* Mobile panel */}
                 {mobileOpen && (
                     <div className="md:hidden py-2 border-t">
                         <div className="flex flex-col px-2 space-y-1">
-                            <Link href="/explore" className="px-3 py-2 rounded-md hover:bg-gray-100">
-                                Explore
-                            </Link>
-                            <Link href="/listings" className="px-3 py-2 rounded-md hover:bg-gray-100">
-                                Listings
-                            </Link>
                             <Link href="/about" className="px-3 py-2 rounded-md hover:bg-gray-100">
                                 About
                             </Link>
-                            <Link href="/create" className="px-3 py-2 rounded-md bg-blue-600 text-white text-center">
-                                Post
-                            </Link>
-                            <div className="border-t pt-2">
-                                <Link href="/profile" className="block px-3 py-2 rounded-md hover:bg-gray-100">
-                                    Profile
-                                </Link>
-                                <Link href="/settings" className="block px-3 py-2 rounded-md hover:bg-gray-100">
-                                    Settings
-                                </Link>
-                                <button
-                                    onClick={() => {
-                                        setMobileOpen(false);
-                                        onSignOut?.();
-                                    }}
-                                    className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100"
-                                >
-                                    Sign out
-                                </button>
-                            </div>
                         </div>
                     </div>
                 )}
