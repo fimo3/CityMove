@@ -24,3 +24,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Basic page background for cards and map */
+.bg-white { background-color: #ffffff; }
+
+/* Ensure map container takes available height in its card */
+.leaflet-container { height: 100%; width: 100%; }
+

@@ -3,8 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-
-
 type User = {
     name: string;
     email?: string;
@@ -33,7 +31,7 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
     }, []);
 
     function initials(name?: string) {
-        if (!name) return "U";
+        if (!name) return "G";
         return name
             .split(" ")
             .map((s) => s[0])
@@ -48,20 +46,11 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                 <div className="flex items-center justify-between h-16">
                     {/* Left: logo + links */}
                     <div className="flex items-center space-x-4">
-                        <Link href="/" className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-white font-semibold">
-                                CM
-                            </div>
+                        <Link href="/" className="py-2 px-2 rounded-md bg-blue-600 flex items-center justify-center text-white font-semibold text-lg hover:bg-blue-700">
                             <span className="font-semibold text-lg">CityMove</span>
                         </Link>
 
                         <div className="hidden md:flex items-center space-x-2 ml-6">
-                            <Link href="/explore" className="px-3 py-2 rounded-md hover:bg-gray-100">
-                                Explore
-                            </Link>
-                            <Link href="/listings" className="px-3 py-2 rounded-md hover:bg-gray-100">
-                                Listings
-                            </Link>
                             <Link href="/about" className="px-3 py-2 rounded-md hover:bg-gray-100">
                                 About
                             </Link>
@@ -70,11 +59,6 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
 
                     {/* Right: actions */}
                     <div className="flex items-center space-x-4">
-                        <div className="hidden md:flex items-center">
-                            <Link href="/create" className="px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                                Post
-                            </Link>
-                        </div>
 
                         {/* Profile */}
                         <div className="relative" ref={dropdownRef}>
