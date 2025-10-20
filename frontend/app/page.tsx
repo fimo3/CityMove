@@ -52,6 +52,12 @@ export default function Home() {
               <p className="mt-2 text-xs text-gray-500">
                 Coordinates: {city.coords[0].toFixed(4)}, {city.coords[1].toFixed(4)}
               </p>
+                <button
+                  className="flex-1 py-2 px-3 border rounded-md"
+                  onClick={() => router.push(`/listings?city=${encodeURIComponent(selected)}`)}
+                >
+                  View listings
+                </button>
             </div>
           </div>
             <div className="p-4 bg-white rounded-md shadow">
@@ -179,12 +185,6 @@ export default function Home() {
                   }}
                 >
                   Find route
-                </button>
-                <button
-                  className="flex-1 py-2 px-3 border rounded-md"
-                  onClick={() => router.push(`/listings?city=${encodeURIComponent(selected)}`)}
-                >
-                  View listings
                 </button>
               </div>
               {(!start || !dest) && (
