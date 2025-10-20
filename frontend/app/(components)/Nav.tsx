@@ -126,6 +126,15 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                             <Link href="/about" className="px-3 py-2 rounded-md hover:bg-gray-100">
                                 About
                             </Link>
+                            <button
+                                onClick={() => {
+                                    setMobileOpen(false);
+                                    onSignOut?.();
+                                }}
+                                className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-100"
+                            >
+                                Sign out
+                            </button>
                         </div>
                     </div>
                 )}
