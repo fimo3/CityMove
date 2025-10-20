@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # local apps
     'map_routes',
+    'profiles',
 ]
 
 MIDDLEWARE = [

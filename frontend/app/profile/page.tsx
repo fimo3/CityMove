@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useEffect, useState, FormEvent } from 'react'
 
@@ -12,9 +12,9 @@ type User = {
 
 export default function ProfilePage(): React.ReactElement {
     const [user, setUser] = useState<User | null>(null)
-    const [editing, setEditing] = useState(false)
+    const [editing, setEditing] = useState<boolean>(false)
     const [form, setForm] = useState<Partial<User>>({})
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const [message, setMessage] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
 
@@ -116,7 +116,7 @@ export default function ProfilePage(): React.ReactElement {
                                 Name
                                 <input
                                     value={form.name ?? ''}
-                                    onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm((s) => ({ ...s, name: e.target.value }))}
                                     style={inputStyle}
                                 />
                             </label>
@@ -126,7 +126,7 @@ export default function ProfilePage(): React.ReactElement {
                                 <input
                                     type="email"
                                     value={form.email ?? ''}
-                                    onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm((s) => ({ ...s, email: e.target.value }))}
                                     style={inputStyle}
                                 />
                             </label>
@@ -135,7 +135,7 @@ export default function ProfilePage(): React.ReactElement {
                                 Bio
                                 <textarea
                                     value={form.bio ?? ''}
-                                    onChange={(e) => setForm((s) => ({ ...s, bio: e.target.value }))}
+                                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm((s) => ({ ...s, bio: e.target.value }))}
                                     style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }}
                                 />
                             </label>
@@ -144,7 +144,7 @@ export default function ProfilePage(): React.ReactElement {
                                 Avatar URL
                                 <input
                                     value={form.avatarUrl ?? ''}
-                                    onChange={(e) => setForm((s) => ({ ...s, avatarUrl: e.target.value }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm((s) => ({ ...s, avatarUrl: e.target.value }))}
                                     style={inputStyle}
                                 />
                             </label>
