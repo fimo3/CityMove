@@ -293,11 +293,8 @@ export default function Home() {
                       if (data?.paths && Array.isArray(data.paths) && typeof data.paths[0]?.time === "number") {
                         durationVal = Math.round(data.paths[0].time / 1000); // seconds
                       } else if (typeof data.time === "number") {
-                        // sometimes time is milliseconds
-                        // if value > 1e6 assume ms and convert, else assume seconds
                         durationVal = data.time > 1e6 ? Math.round(data.time / 1000) : Math.round(data.time);
                       } else if (typeof data.duration === "number") {
-                        // assume seconds
                         durationVal = Math.round(data.duration);
                       } else if (typeof data.travel_time === "number") {
                         durationVal = Math.round(data.travel_time);
@@ -307,12 +304,9 @@ export default function Home() {
                         durationVal = data.travel_time;
                       }
 
-                      // prefer route coordinates returned as 'coords', but fall back to GraphHopper path points if present
                       if (data.coords) {
                         setRoute(data.coords);
                       } else if (data.paths && data.paths[0] && data.paths[0].points && data.paths[0].points.coordinates) {
-                        // GraphHopper points.coordinates is an array of [lon, lat] pairs
-                        // convert to [lat, lon] for Map component
                         const coords = data.paths[0].points.coordinates.map((c: any[]) => [c[1], c[0]]);
                         setRoute(coords);
                       } else {
@@ -331,13 +325,6 @@ export default function Home() {
 
                 </button>
               </div>
-
-              {/* show route duration when available */}
-              {route && (
-                <div className="mt-2 text-sm text-gray-700">
-                  Duration: <span className="font-medium">{formatDuration(duration)}</span>
-                </div>
-              )}
 
               {(!start || !dest) && (
                 <div className="mt-2 text-xs text-red-500">Please select both start and destination (use Enter or choose a suggestion).</div>
