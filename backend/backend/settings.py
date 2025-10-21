@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'backend.middleware.ApiExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -134,6 +135,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS (development convenience)
 CORS_ALLOW_ALL_ORIGINS = True
+# Allow cookies to be sent cross-origin for development (frontend dev server)
+CORS_ALLOW_CREDENTIALS = True
 
 # GraphHopper API key (server-side) - set in environment
 GRAPHOPPER_KEY = os.getenv('GRAPHOPPER_KEY')

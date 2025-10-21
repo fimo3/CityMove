@@ -56,6 +56,12 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                                 About
                             </Link>
                         </div>
+
+                        <div className="hidden md:flex items-center space-x-2 ml-6">
+                            <Link href="/findlisting" className="px-3 py-2 rounded-md hover:bg-gray-100">
+                                Listings
+                            </Link>
+                        </div>
                     </div>
 
                     <div className="flex items-center space-x-4">
@@ -98,7 +104,10 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                                                     onClick={async () => {
                                                         setOpen(false);
                                                         try {
-                                                            await fetch('/api/profile/logout/', { method: 'POST' });
+                                                            const backend = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'
+                                                            const base = backend.replace(/\/$/, '')
+                                                            const url = `${base}/api/profile/logout/`
+                                                            await fetch(url, { method: 'POST', credentials: 'include' });
                                                         } catch (_) {}
                                                         onSignOut?.();
                                                         router.push('/');
@@ -165,7 +174,10 @@ export default function Nav({ user = null, onSignOut }: NavProps) {
                                 onClick={async () => {
                                     setMobileOpen(false);
                                     try {
-                                        await fetch('/api/profile/logout/', { method: 'POST' });
+                                        const backend = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'
+                                        const base = backend.replace(/\/$/, '')
+                                        const url = `${base}/api/profile/logout/`
+                                        await fetch(url, { method: 'POST', credentials: 'include' });
                                     } catch (_) {}
                                     onSignOut?.();
                                     router.push('/');

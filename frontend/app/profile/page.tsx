@@ -23,9 +23,29 @@ export default function ProfilePage(): React.ReactElement {
         async function load() {
             setLoading(true)
             try {
-                const res = await fetch('/api/profile')
-                if (!res.ok) throw new Error(`Failed to load (${res.status})`)
-                const data: User = await res.json()
+                    const backend = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'
+                    const base = backend.replace(/\/$/, '')
+                    const url = `${base}/api/profile/`
+                    const res = await fetch(url, { credentials: 'include' })
+                    const contentType = res.headers.get?.('content-type') || ''
+                    if (!res.ok) {
+                        const text = await res.text().catch(() => '')
+                        throw new Error(`Failed to load (${res.status}) ${text ? `: ${text.slice(0,200)}` : ''}`)
+                    }
+                    let body: any = null
+                    if (contentType.includes('application/json')) {
+                        body = await res.json().catch(() => null)
+                    } else {
+                        // try to parse text body as JSON but handle gracefully
+                        const text = await res.text().catch(() => '')
+                        try {
+                            body = text ? JSON.parse(text) : null
+                        } catch (e) {
+                            console.warn('Profile endpoint returned non-JSON:', text.slice(0,200))
+                            body = null
+                        }
+                    }
+                    const data: User = body?.profile ?? body
                 if (!mounted) return
                 setUser(data)
                 setForm({ name: data.name, email: data.email, bio: data.bio, avatarUrl: data.avatarUrl })
@@ -46,13 +66,29 @@ export default function ProfilePage(): React.ReactElement {
         setError(null)
         setMessage(null)
         try {
-            const res = await fetch('/api/profile', {
+            const backend = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'
+            const base = backend.replace(/\/$/, '')
+            const url = `${base}/api/profile/`
+            const payload = { profile: { ...user, ...form } }
+            const res = await fetch(url, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...user, ...form }),
+                credentials: 'include',
+                body: JSON.stringify(payload),
             })
-            if (!res.ok) throw new Error(`Save failed (${res.status})`)
-            const updated: User = await res.json()
+            const contentType = res.headers.get?.('content-type') || ''
+            if (!res.ok) {
+                const text = await res.text().catch(() => '')
+                throw new Error(`Save failed (${res.status})${text ? `: ${text.slice(0,200)}` : ''}`)
+            }
+            let body: any = null
+            if (contentType.includes('application/json')) {
+                body = await res.json().catch(() => null)
+            } else {
+                const text = await res.text().catch(() => '')
+                try { body = text ? JSON.parse(text) : null } catch { body = { error: text } }
+            }
+            const updated: User = body?.profile ?? body
             setUser(updated)
             setForm({ name: updated.name, email: updated.email, bio: updated.bio, avatarUrl: updated.avatarUrl })
             setEditing(false)
